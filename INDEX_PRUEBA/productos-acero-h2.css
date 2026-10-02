@@ -1,0 +1,545 @@
+:root {
+    --steel-dark: #17212b;
+    --steel-blue: #1668a8;
+    --steel-light: #eaf1f5;
+}
+
+body { 
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; 
+}
+
+/* video */ 
+/* Contenedor principal */
+.video-wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Tarjeta con efecto cristal (Borde) */
+.video-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem; /* Equivalente a rounded-2xl */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(15, 23, 42, 0.6); /* Color slate-900 al 60% */
+    padding: 0.5rem; /* Equivalente a p-2 */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* Soporte para Safari */
+}
+
+/* Comportamiento del video en móvil (proporción perfecta) */
+.video-content {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* Evita que se deforme en celulares */
+    border-radius: 0.75rem; /* Equivalente a rounded-xl */
+    object-fit: cover;
+}
+
+/* Ajuste para pantallas grandes (Tablets y Escritorio) */
+@media (min-width: 1024px) {
+    .video-content {
+        height: 400px;
+    }
+}
+
+/* valores del fondo de banner */
+.hero-pattern {
+            background-color: var(--steel-dark);
+            background-image: linear-gradient(90deg, rgba(14, 25, 35, .90), rgba(14, 25, 35, .45)), url('https://images.unsplash.com/photo-1565522749008-01d0144d852a?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-pattern::before {
+            content: "";
+            position: absolute;
+            inset: -50%;
+            z-index: 1;
+            background: radial-gradient(circle at 50% 50%, rgba(22, 104, 168, .25), rgba(120, 90, 255, .20), rgba(255, 120, 50, .15), transparent 60%);
+            background-size: 200% 200%;
+            animation: rgbAuraMove 12s ease-in-out infinite alternate;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+        @keyframes rgbAuraMove {
+            0% { transform: translate(-10%, -10%) scale(1); background-position: 0% 50%; }
+            50% { transform: translate(10%, 10%) scale(1.15); background-position: 100% 50%; }
+            100% { transform: translate(-5%, 5%) scale(1); background-position: 50% 100%; }
+        }
+        .section-label {
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+        .data-card { border-top: 3px solid var(--steel-blue); }
+        .contact-link:hover { color: #fff; }
+
+/* ============ Cursor personalizado: punto azul ============ */
+body, a, button, input, textarea, select, label, [role="button"] {
+    cursor: none;
+}
+
+/* tamaño del cursor y  reactividad con elementos */
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 14px 4px rgba(22, 104, 168, .55);
+    transition: width .2s ease, height .2s ease, box-shadow .2s ease;
+    animation: dotColorCycle 6s ease-in-out infinite;
+}
+
+.cursor-dot.is-hover {
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 0 24px 8px rgba(255, 255, 255, .5);
+}
+
+@keyframes dotColorCycle {
+    0%   { background-color: #b7c2cc; } /* gris */
+    33%  { background-color: #ffffff; } /* blanco */
+    66%  { background-color: var(--steel-blue); } /* azul */
+    100% { background-color: #b7c2cc; }
+}
+
+@media (hover: none), (pointer: coarse) {
+    .cursor-dot { display: none; }
+    body, a, button, input, textarea, select, label, [role="button"] { cursor: auto; }
+}
+
+/* ============ Atardecer con tonos RGB cambiantes ============ */
+.hero-pattern::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(120deg,
+        rgba(120, 90, 255, .32),
+        rgba(22, 104, 168, .42),
+        rgba(200, 205, 212, .22),
+        rgba(255, 255, 255, .14));
+    background-size: 320% 320%;
+    animation: auroraShift 3s ease-in-out infinite;
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+@keyframes auroraShift {
+    0%   { background-position: 0% 40%; }
+    50%  { background-position: 100% 60%; }
+    100% { background-position: 0% 40%; }
+}
+
+/* ============ Fondo tipo espacio (campo de estrellas) ============ */
+.starfield {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cursor-dot,
+    .hero-pattern::before {
+        animation: none;
+    }
+}
+/* edicion de imagenes_trabajo */
+.imagenes_trabajo img {
+    border-radius: 12px;
+}
+
+/* ============ Galería tipo "dock": recuadros que crecen al pasar el mouse ============ */
+.galeria-stacked {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    height: 430px; /* <--- Subido de 390px a 430px para dar espacio al translateY hacia arriba */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 45px 40px 25px 40px; /* <--- Más padding arriba para que el hover no se corte */
+    overflow: visible;
+}
+
+/* TARJETAS */
+.galeria-stacked-item {
+    position: relative;
+    flex: 0 0 220px;
+    width: 220px;
+    height: 320px;
+    margin-left: -115px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 4px solid #ffffff;
+    background-color: #cbd5e1;
+    box-shadow: -15px 0 25px rgba(0,0,0,0.15);
+    transition:
+        transform 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+        filter 0.35s ease,
+        opacity 0.35s ease,
+        box-shadow 0.35s ease;
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* Primera imagen no necesita margen negativo */
+.galeria-stacked-item:first-child {
+    margin-left: 0;
+}
+
+/* IMAGEN */
+.galeria-stacked-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* MODO OSCURO */
+.dark .galeria-stacked-item {
+    border-color: #17212b;
+    background-color: #334155;
+    box-shadow: -15px 0 25px rgba(0,0,0,0.6);
+}
+
+/* IMAGEN SOBRE LA QUE ESTÁ EL CURSOR */
+.galeria-stacked-item:hover {
+    transform:
+        translateY(-25px)
+        scale(1.12);
+    z-index: 20;
+    filter: brightness(1);
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.30);
+}
+.galeria-stacked-item:hover ~ .galeria-stacked-item {
+    transform: translateX(115px);
+}
+.galeria-stacked:hover
+.galeria-stacked-item:not(:hover) {
+    filter: brightness(0.60);
+}
+.galeria-stacked:not(:hover)
+.galeria-stacked-item {
+    filter: brightness(1);
+}
+
+/*
+   RESPONSIVE */
+@media (max-width: 900px) {
+    .galeria-stacked {
+        width: 100%;
+        max-width: 500px;
+        height: 350px;
+        padding: 20px 20px;
+        justify-content: center;
+        overflow: visible;
+    }
+    .galeria-stacked-item {
+        flex: 0 0 180px;
+        width: 180px;
+        height: 270px;
+        margin-left: -90px;
+    }
+    .galeria-stacked-item:first-child {
+        margin-left: 0;
+    }
+    .galeria-stacked-item:hover ~ .galeria-stacked-item {
+        transform: translateX(90px);
+    }
+}
+
+/*
+   CELULAR*/
+@media (max-width: 640px) {
+    .galeria-stacked {
+        width: 100%;
+        max-width: 100%;
+        height: 280px;
+        padding: 15px 5px;
+        justify-content: center;
+        /* evita que la galería ensanche la página */
+        overflow: hidden;
+    }
+    .galeria-stacked-item {
+        flex: 0 0 135px;
+        width: 135px;
+        height: 210px;
+        margin-left: -68px;
+    }
+    .galeria-stacked-item:first-child {
+        margin-left: 0;
+    }
+    .galeria-stacked-item:hover {
+        transform:
+            translateY(-12px)
+            scale(1.06);
+        z-index: 20;
+    }
+    .galeria-stacked-item:hover ~ .galeria-stacked-item {
+        transform: translateX(68px);
+    }
+}
+
+/* celular */
+@media (max-width: 380px) {
+    .galeria-stacked {
+        width: 100%;
+        max-width: 100%;
+        height: 250px;
+        padding: 10px 2px;
+        overflow: hidden;
+    }
+    .galeria-stacked-item {
+        flex: 0 0 120px;
+        width: 120px;
+        height: 190px;
+        margin-left: -60px;
+    }
+    .galeria-stacked-item:first-child {
+        margin-left: 0;
+    }
+    .galeria-stacked-item:hover {
+        transform:
+            translateY(-10px)
+            scale(1.05);
+    }
+    .galeria-stacked-item:hover ~ .galeria-stacked-item {
+        transform: translateX(60px);
+    }
+}
+
+/* Carrusel piramidal */
+* {
+    box-sizing: border-box;
+}
+
+/* CONTENEDOR */
+.galeria-carrusel {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        margin: 0 auto;
+}
+
+/* ÁREA DEL CARRUSEL */
+.carrusel {
+    position: relative;
+    width: 500px;
+    height: 300px;
+}
+
+/* IMÁGENES  -carrusl piramidal- */
+
+.imagen {
+    position: absolute;
+    width: 300px;
+    height: 200px;
+    left: 50%;
+    top: 50%;
+    border-radius: 15px;
+    overflow: hidden;
+    transition:
+        transform 0.6s ease,
+        opacity 0.6s ease,
+        filter 0.6s ease;
+    box-shadow: 0 15px 35px rgba(0,0,0,.25);
+    cursor: pointer;
+}
+
+.imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/*
+   IMAGEN PRINCIPAL*/
+.pos0 {
+    transform:
+        translate(-50%, -50%)
+        translateY(-70px)
+        scale(1.15);
+    z-index: 10;
+    opacity: 1;
+    filter: brightness(1);
+}
+
+/*
+   IMAGEN DERECHA */
+.pos1 {
+    transform:
+        translate(-50%, -50%)
+        translateX(230px)
+        translateY(20px)
+        scale(.82);
+    z-index: 8;
+    opacity: .75;
+    filter: brightness(.75);
+}
+
+/*
+   SEGUNDA DERECHA */
+.pos2 {
+    transform:
+        translate(-50%, -50%)
+        translateX(330px)
+        translateY(110px)
+        scale(.65);
+    z-index: 6;
+    opacity: .45;
+    filter: brightness(.6);
+}
+
+/* 
+   IZQUIERDA */
+.pos4 {
+    transform:
+        translate(-50%, -50%)
+        translateX(-230px)
+        translateY(20px)
+        scale(.82);
+    z-index: 8;
+    opacity: .75;
+    filter: brightness(.75);
+}
+
+/* 
+   SEGUNDA IZQUIERDA */
+.pos3 {
+    transform:
+        translate(-50%, -50%)
+        translateX(-330px)
+        translateY(110px)
+        scale(.65);
+    z-index: 6;
+    opacity: .45;
+    filter: brightness(.6);
+}
+
+/* 
+   FLECHAS */
+.flecha {
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    transform: translateY(-50%);
+    border: none;
+    border-radius: 50%;
+    background: rgba(0,0,0,.65);
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 20;
+    transition: .25s;
+}
+.flecha:hover {
+    background: rgba(0,0,0,.9);
+    transform:
+        translateY(-50%)
+        scale(1.1);
+}
+.flecha.izquierda {
+    left: 20px;
+}
+.flecha.derecha {
+    right: 20px;
+}
+
+/*
+   TEXTO
+   */
+.titulo {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 18px;
+    background: rgba(0,0,0,.65);
+    color: white;
+    border-radius: 20px;
+    z-index: 15;
+}
+
+
+/*
+   RESPONSIVE*/
+
+@media (max-width: 700px) {
+
+    .galeria {
+        width: 100%;
+    }
+
+    .carrusel {
+        width: 100%;
+    }
+    .imagen {
+        width: 220px;
+        height: 150px;
+    }
+    .pos1 {
+        transform:
+            translate(-50%, -50%)
+            translateX(130px)
+            translateY(20px)
+            scale(.75);
+    }
+    .pos2 {
+        opacity: 0;
+    }
+    .pos4 {
+        transform:
+            translate(-50%, -50%)
+            translateX(-130px)
+            translateY(20px)
+            scale(.75);
+    }
+    .pos3 {
+        opacity: 0;
+    }
+}
+header {
+    max-width: 100vw;
+}
+
+/*responsive */
+@media (max-width: 1024px) {
+    main {
+        overflow-x: hidden;   /* respaldo para navegadores antiguos */
+        overflow-x: clip;     /* navegadores modernos */
+    }
+}
+@media (max-width: 700px) {
+    .galeria {
+        height: 320px;
+    }
+    .carrusel {
+        height: 320px;
+    }
+    /* Las imágenes ocultas no deben recibir toques */
+    .pos2,
+    .pos3 {
+        pointer-events: none;
+    }
+}
